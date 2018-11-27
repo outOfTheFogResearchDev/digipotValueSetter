@@ -3,6 +3,8 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const api = require('./api/index');
 
+const native = require('bindings')('native');
+
 const config = process.env.NODE_ENV === 'production' ? process.env : require('../../config/config');
 
 const app = express();
