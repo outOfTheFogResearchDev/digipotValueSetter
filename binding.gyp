@@ -1,7 +1,7 @@
 {
   "targets": [
     {
-      "target_name": "native",
+      "target_name": "test",
       "sources": [
         "./server/app/util/test.cpp"
       ],

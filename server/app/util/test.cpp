@@ -1,9 +1,14 @@
 #include <napi.h>
 using namespace Napi;
-String Hello(const CallbackInfo& info) {
-  return String::New(info.Env(), "world");
+
+std::string Say(const CallbackInfo& info) {
+  std::string input = info[0].As<String>().Utf8Value();
+  return input;
 }
-void Init(Env env, Object exports, Object module) {
-  exports.Set("hello", Function::New(env, Hello));
+
+Object Init(Env env, Napi::Object exports) {
+  exports.Set("say", Function::New(env, Say));
+  return exports;
 }
+
 NODE_API_MODULE(addon, Init)
