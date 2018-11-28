@@ -1,5 +1,5 @@
 {
-  "name": "digipotValueSetter",
+  "name": "digipotvaluesetter",
   "version": "1.0.0",
   "description": "",
   "main": "server/index.js",
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Max-Berkowitz/attenuationLevels.git"
+    "url": "git+https://github.com/Max-Berkowitz/digipotvaluesetter.git"
   },
   "author": "MaxBerkowitz",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/Max-Berkowitz/attenuationLevels/issues"
+    "url": "https://github.com/Max-Berkowitz/digipotvaluesetter/issues"
   },
-  "homepage": "https://github.com/Max-Berkowitz/attenuationLevels#readme",
+  "homepage": "https://github.com/Max-Berkowitz/digipotvaluesetter#readme",
   "dependencies": {
     "axios": "^0.18.0",
     "bindings": "^1.3.1",
