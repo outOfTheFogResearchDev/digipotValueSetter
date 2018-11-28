@@ -1,13 +1,16 @@
-#include <napi.h>
-using namespace Napi;
+#include <node.h>
 
-String Hello(const CallbackInfo& info) {
-  return String::New(info.Env(), "world");
+using namespace v8;
+
+void Hello(const FunctionCallbackInfo<Value> &args)
+{
+  Isolate *isolate = args.GetIsolate();
+  args.GetReturnValue().Set(String::NewFromUtf8(isolate, "world", NewStringType::kNormal).ToLocalChecked());
 }
 
-Object Init(Env env, Napi::Object exports) {
-  exports.Set("hello", Function::New(env, Hello));
-  return exports;
+void Initialize(Local<Object> exports)
+{
+  NODE_SET_METHOD(exports, "hello", Hello);
 }
 
-NODE_API_MODULE(addon, Init)
+NODE_MODULE(NODE_GYP_MODULE_NAME, Initialize);

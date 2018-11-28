@@ -1,19 +1,6 @@
 {
   "targets": [
-    {
-      "target_name": "test",
-      "sources": [
-        "./server/app/util/test.cpp"
-      ],
-      "include_dirs": [
-        "<!@(node -p \"require('node-addon-api').include\")"
-      ],
-      "dependencies": [
-        "<!(node -p \"require('node-addon-api').gyp\")"
-      ],
-      "cflags!": ["-fno-exceptions"],
-      "cflags_cc!": ["-fno-exceptions"],
-      "defines": ["NAPI_CPP_EXCEPTIONS"]
-    }
+    { "target_name": "testInput", "sources": [ "./server/app/util/testInput.cpp" ] },
+    { "target_name": "testOutput", "sources": [ "./server/app/util/testOutput.cpp" ] },
   ]
 }
