@@ -1,6 +1,10 @@
 {
   "targets": [
-    { "target_name": "testInput", "sources": [ "./server/app/util/testInput.cpp" ] },
-    { "target_name": "testOutput", "sources": [ "./server/app/util/testOutput.cpp" ] },
+    { 
+      "target_name": "read",
+      "include_dirs": [ "<(module_root_dir)/server/app/util" ],
+      "sources": [ "<(module_root_dir)/server/app/util/read.cpp", "<(module_root_dir)/server/app/util/StdAfx.cpp" ],
+      "link_settings": { "libraries": [ "-lVCAIOUSB" ], "library_dirs" : [ "<(module_root_dir)/server/app/util" ] }
+    }
   ]
 }
