@@ -1,0 +1,32 @@
+{
+  "editor.fontSize": 20,
+  "files.eol": "\n",
+  "jest.pathToJest": "npm test --",
+  "terminal.integrated.shell.windows": "cmd.exe",
+  "terminal.integrated.shellArgs.windows": ["/k", "C:\\Users\\Max Berkowitz\\Downloads\\cmder\\vendor\\init.bat"],
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "emmet.triggerExpansionOnTab": true,
+  "javascript.validate.enable": false,
+  "vs-color-picker.autoLaunch": true,
+  "editor.formatOnSave": true,
+  "prettier.arrowParens": "avoid",
+  "prettier.printWidth": 120,
+  "prettier.semi": true,
+  "prettier.singleQuote": true,
+  "prettier.tabWidth": 2,
+  "prettier.useTabs": false,
+  "prettier.trailingComma": "es5",
+  "prettier.bracketSpacing": true,
+  "javascript.format.insertSpaceAfterKeywordsInControlFlowStatements": true,
+  "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": true,
+  "explorer.confirmDragAndDrop": false,
+  "editor.tokenColorCustomizations": {
+    "[Spirited Away]": {}
+  },
+  "workbench.startupEditor": "newUntitledFile",
+  "workbench.colorTheme": "Spirited Away",
+  "eslint.run": "onSave",
+  "javascript.updateImportsOnFileMove.enabled": "always"
+}
