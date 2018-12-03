@@ -7,15 +7,9 @@
       "link_settings": { "libraries": [ "-lVCAIOUSB64" ], "library_dirs" : [ "<(module_root_dir)/server/app/util" ] }
     },
     { 
-      "target_name": "incrimentCode",
+      "target_name": "stepCode",
       "include_dirs": [ "<(module_root_dir)/server/app/util" ],
-      "sources": [ "<(module_root_dir)/server/app/util/incrimentCode.cpp", "<(module_root_dir)/server/app/util/StdAfx.cpp" ],
-      "link_settings": { "libraries": [ "-lVCAIOUSB64" ], "library_dirs" : [ "<(module_root_dir)/server/app/util" ] }
-    },
-    { 
-      "target_name": "decrimentCode",
-      "include_dirs": [ "<(module_root_dir)/server/app/util" ],
-      "sources": [ "<(module_root_dir)/server/app/util/decrimentCode.cpp", "<(module_root_dir)/server/app/util/StdAfx.cpp" ],
+      "sources": [ "<(module_root_dir)/server/app/util/stepCode.cpp", "<(module_root_dir)/server/app/util/StdAfx.cpp" ],
       "link_settings": { "libraries": [ "-lVCAIOUSB64" ], "library_dirs" : [ "<(module_root_dir)/server/app/util" ] }
     },
     { 

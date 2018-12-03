@@ -6,10 +6,13 @@
 
 using namespace v8;
 
-void decrimentCode(const FunctionCallbackInfo<Value> &args)
+//? Takes two arguments: channel number, step direction (+1 for incriment, -1 for decriment)
+
+void stepCode(const FunctionCallbackInfo<Value> &args)
 {
     Isolate *isolate = args.GetIsolate();
     int channel = args[0].As<Number>()->Value();
+    int step = args[1].As<Number>()->Value(); // +1 for incriment, -1 for decriment
 
     //* C++ starts here
 
@@ -25,15 +28,15 @@ void decrimentCode(const FunctionCallbackInfo<Value> &args)
     offset = floor(ch / 4) * 8; // channel 1-4: 0 = Bank A, 5-8: 8 = Bank B, 9-12: 16 = Bank C
     offset2 = floor(ch / 4);
 
-    com_code = 0x02; //Code for increment operation
+    com_code = step > 0 ? 0x01 : 0x02; // 0x01 for incriment, 0x02 for decriment
 
+    // Set up the 8-bit command word
     com_word = com_word | (com_code << 2);
     com_word = com_word | (addr << 4);
 
     // Write serial data to the DIO ports:
     // Port assignments:  x0=HV_EN, x1=/CS, x2=SCLK, and x3=SDI
     // Here 'x' is {A,B, or C}.
-
     DIO_Write1(deviceIndex, (3 + offset), false); //Set SDI to '0'
     DIO_Write1(deviceIndex, (2 + offset), true);  //Set SCLK to '1'
     DIO_Write1(deviceIndex, (1 + offset), true);  //Set /CS to '1'
@@ -57,9 +60,9 @@ void decrimentCode(const FunctionCallbackInfo<Value> &args)
             DIO_Write1(deviceIndex, (3 + offset), false); //Set SDI to '0'
         }
         // Set SCLK to '1'
-        DIO_Write1(deviceIndex, (2 + offset), true); //Set SCLK to '1', Read SDO data back
+        DIO_Write1(deviceIndex, (2 + offset), true); // Set SCLK to '1', Read SDO data back
     }
-    //Reset SCLK and /CS
+    // Reset SCLK and /CS
     DIO_Write1(deviceIndex, (2 + offset), true); //Set SCLK to '1'
     DIO_Write1(deviceIndex, (1 + offset), true); //Set /CS to '1'
 
@@ -68,7 +71,7 @@ void decrimentCode(const FunctionCallbackInfo<Value> &args)
 
 void init(Local<Object> exports, Local<Object> method)
 {
-    NODE_SET_METHOD(method, "exports", decrimentCode);
+    NODE_SET_METHOD(method, "exports", stepCode);
 }
 
 NODE_MODULE(NODE_GYP_MODULE_NAME, init);
