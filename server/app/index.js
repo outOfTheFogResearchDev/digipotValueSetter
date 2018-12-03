@@ -29,6 +29,8 @@ app.use(express.static(`${__dirname}/../../client/dist/`));
 
 app.use('/api', api);
 
-app.get('*', (req, res) => res.redirect(301, '/'))
+app.get('*', (req, res) => res.redirect(301, '/'));
 
 module.exports = app;
+
+//csv([[12, 90],[11, 100]], (err, data) => fs.writeFile('./server/local/band1.csv', data, (err) => console.log(err)))
