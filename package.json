@@ -6,6 +6,7 @@
   "scripts": {
     "test": "set NODE_ENV='test' && jest",
     "start": "node server/index.js",
+    "gui-setup-helper": "node server/guiSetupHelper.js",
     "cpp-build": "node-gyp rebuild",
     "react-dev": "webpack -d --watch --optimize-minimize --optimize-occurrence-order --optimize-dedupe --config webpack.config.js",
     "deployment-build": "webpack -p --progress --optimize-minimize --optimize-occurrence-order --optimize-dedupe --config webpack.config.js",
