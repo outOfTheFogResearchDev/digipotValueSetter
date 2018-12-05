@@ -24,9 +24,9 @@ api.get('/configure', async (req, res) => {
 });
 
 api.get('/getCode', async (req, res) => {
-  const { channel } = req.query;
+  const { level } = req.query;
   try {
-    const code = await getCode(channel);
+    const code = await getCode(+level);
     res.status(200).send({ code });
   } catch (e) {
     res.status(400).send(e);
@@ -43,9 +43,9 @@ api.get('/getAllCodes', async (req, res) => {
 });
 
 api.post('/setCode', async (req, res) => {
-  const { channel, code } = req.body;
+  const { level, code } = req.body;
   try {
-    await setCode(channel, code);
+    await setCode(+level, +code);
     res.sendStatus(201);
   } catch (e) {
     res.status(400).send(e);
@@ -63,9 +63,9 @@ api.post('/setAllCodes', async (req, res) => {
 });
 
 api.post('/saveCode', async (req, res) => {
-  const { channel, code } = req.body;
+  const { level, code } = req.body;
   try {
-    await saveCode(channel, code);
+    await saveCode(+level, +code);
     res.sendStatus(201);
   } catch (e) {
     res.status(400).send(e);
@@ -83,9 +83,9 @@ api.post('/saveAllCodes', async (req, res) => {
 });
 
 api.post('/stepCode', async (req, res) => {
-  const { channel, direction } = req.body;
+  const { level, direction } = req.body;
   try {
-    await stepCode(channel, direction);
+    await stepCode(+level, +direction);
     res.sendStatus(201);
   } catch (e) {
     res.status(400).send(e);
@@ -97,7 +97,7 @@ api
   .get(async (req, res) => {
     const { channel } = req.query;
     try {
-      const defaults = await readCsv(channel);
+      const defaults = await readCsv(channel, 'defaults');
       res.status(200).send({ defaults });
     } catch (e) {
       res.status(404).send(e);
@@ -106,11 +106,21 @@ api
   .post(async (req, res) => {
     const { channel, defaults } = req.body;
     try {
-      await writeCsv(channel, defaults);
+      await writeCsv(channel, 'defaults', defaults);
       res.sendStatus(201);
     } catch (e) {
       res.status(400).send(e);
     }
   });
+
+api.post('/current', async (req, res) => {
+  const { channel, current } = req.body;
+  try {
+    await writeCsv(channel, 'current', current);
+    res.sendStatus(201);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
 
 module.exports = api;
