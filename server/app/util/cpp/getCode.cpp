@@ -77,7 +77,7 @@ void getCode(const FunctionCallbackInfo<Value> &args)
   {
     // if CMDERR bit=1, then process data
     int x = 1;
-    // hex -> dec
+    // binary -> decimal
     for (int i = 0; i < 9; i++)
     {
       if (buffer[i] & (1 << offset2))

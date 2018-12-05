@@ -1,5 +1,16 @@
 const { Router } = require('express');
-const { configure, getCode, getAllCodes, saveCode, setCode, stepCode, writeCsv, readCsv } = require('../util/utils');
+const {
+  configure,
+  getCode,
+  getAllCodes,
+  setCode,
+  setAllCodes,
+  saveCode,
+  saveAllCodes,
+  stepCode,
+  writeCsv,
+  readCsv,
+} = require('../util/utils');
 
 const api = Router();
 
@@ -22,10 +33,30 @@ api.get('/getCode', async (req, res) => {
   }
 });
 
-api.get('/getAllCode', async (req, res) => {
+api.get('/getAllCodes', async (req, res) => {
   try {
     const codes = await getAllCodes();
     res.status(200).send({ codes });
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+
+api.post('/setCode', async (req, res) => {
+  const { channel, code } = req.body;
+  try {
+    await setCode(channel, code);
+    res.sendStatus(201);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+
+api.post('/setAllCodes', async (req, res) => {
+  const { codes } = req.body;
+  try {
+    await setAllCodes(codes);
+    res.sendStatus(201);
   } catch (e) {
     res.status(400).send(e);
   }
@@ -41,10 +72,10 @@ api.post('/saveCode', async (req, res) => {
   }
 });
 
-api.post('/setCode', async (req, res) => {
-  const { channel, code } = req.body;
+api.post('/saveAllCodes', async (req, res) => {
+  const { codes } = req.body;
   try {
-    await setCode(channel, code);
+    await saveAllCodes(codes);
     res.sendStatus(201);
   } catch (e) {
     res.status(400).send(e);
