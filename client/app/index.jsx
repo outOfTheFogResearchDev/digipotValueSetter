@@ -1,6 +1,18 @@
 import React, { Fragment, Component } from 'react';
 import { get, post } from 'axios';
+import styled from 'styled-components';
 import CodePlot from './codePlot';
+
+const ChannelText = styled.label`
+  display: inline-block;
+  font-size: 150%;
+  margin-left: 1%;
+`;
+
+const ChannelRadio = styled.input`
+  display: inline-block;
+  margin-right: 3%;
+`;
 
 export default class extends Component {
   constructor(props) {
@@ -92,11 +104,12 @@ export default class extends Component {
     return (
       <Fragment>
         {[1, 2, 3, 4, 5].map(num => (
-          <div key={num}>
-            <input type="radio" checked={channel === num} onChange={this.handleChannelSwitch} value={num} />
-            Channel {num}
-          </div>
+          <Fragment key={num}>
+            <ChannelText>Channel {num}</ChannelText>
+            <ChannelRadio type="radio" checked={channel === num} onChange={this.handleChannelSwitch} value={num} />
+          </Fragment>
         ))}
+        <br />
         <button type="submit" onClick={this.handleSetDefaults}>
           Set Defaults
         </button>
