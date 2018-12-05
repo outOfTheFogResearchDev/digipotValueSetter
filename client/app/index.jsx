@@ -8,6 +8,7 @@ export default class extends Component {
     this.state = { codes: [], channel: 1 };
 
     this.handleCodeChange = this.handleCodeChange.bind(this);
+    this.handleTempCodeChange = this.handleTempCodeChange.bind(this);
     this.handleChannelSwitch = this.handleChannelSwitch.bind(this);
     this.handleSetDefaults = this.handleSetDefaults.bind(this);
     this.handleApplyDefaults = this.handleApplyDefaults.bind(this);
@@ -43,6 +44,12 @@ export default class extends Component {
     } catch (e) {
       alert(e); // eslint-disable-line no-alert
     }
+  }
+
+  handleTempCodeChange(level, code) {
+    const { codes } = this.state;
+    codes[12 - level][1] = code;
+    this.setState({ codes });
   }
 
   handleChannelSwitch({ target: { value } }) {
@@ -97,7 +104,13 @@ export default class extends Component {
           Apply Defaults
         </button>
         {codes.map(([level, code]) => (
-          <CodePlot key={level} level={level} code={code} handleCodeChange={this.handleCodeChange} />
+          <CodePlot
+            key={level}
+            level={level}
+            code={code}
+            handleCodeChange={this.handleCodeChange}
+            handleTempCodeChange={this.handleTempCodeChange}
+          />
         ))}
       </Fragment>
     );
