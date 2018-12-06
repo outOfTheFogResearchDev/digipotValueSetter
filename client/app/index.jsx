@@ -31,7 +31,7 @@ const ApplyDefault = styled.button`
 export default class extends Component {
   constructor(props) {
     super(props);
-    this.state = { codes: [], channel: 1 };
+    this.state = { codes: [], channel: 0 };
 
     this.handleCodeChange = this.handleCodeChange.bind(this);
     this.handleTempCodeChange = this.handleTempCodeChange.bind(this);
@@ -129,16 +129,18 @@ export default class extends Component {
         <ApplyDefault type="submit" onClick={this.handleApplyDefaults}>
           Apply Defaults
         </ApplyDefault>
-        {codes.map(([level, code]) => (
-          <CodePlot
-            key={level}
-            level={level}
-            code={code}
-            channel={channel}
-            handleCodeChange={this.handleCodeChange}
-            handleTempCodeChange={this.handleTempCodeChange}
-          />
-        ))}
+        {channel
+          ? codes.map(([level, code]) => (
+              <CodePlot
+                key={level}
+                level={level}
+                code={code}
+                channel={channel}
+                handleCodeChange={this.handleCodeChange}
+                handleTempCodeChange={this.handleTempCodeChange}
+              />
+            ))
+          : null}
       </Fragment>
     );
   }

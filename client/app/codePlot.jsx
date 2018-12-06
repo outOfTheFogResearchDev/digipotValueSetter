@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const LevelForm = styled.form`
-  padding: 5px 5px;
+  padding: 7px 5px;
   margin: 10px 0;
   box-sizing: border-box;
 `; // margin-left 25px base, +186 per channel past 1 (done in react style bellow)
