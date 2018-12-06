@@ -106,7 +106,7 @@ api
   .post(async (req, res) => {
     const { channel, defaults } = req.body;
     try {
-      await writeCsv(channel, 'defaults', defaults);
+      await writeCsv(channel, defaults, null, 'defaults');
       res.sendStatus(201);
     } catch (e) {
       res.status(400).send(e);
@@ -114,9 +114,9 @@ api
   });
 
 api.post('/current', async (req, res) => {
-  const { channel, current } = req.body;
+  const { channel, values, unit } = req.body;
   try {
-    await writeCsv(channel, 'current', current);
+    await writeCsv(channel, values, unit, 'values');
     res.sendStatus(201);
   } catch (e) {
     res.status(400).send(e);
