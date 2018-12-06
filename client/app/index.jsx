@@ -1,6 +1,32 @@
 import React, { Fragment, Component } from 'react';
 import { get, post } from 'axios';
+import styled from 'styled-components';
 import CodePlot from './codePlot';
+
+const ChannelText = styled.label`
+  display: inline-block;
+  font-size: 150%;
+  margin-left: 40px;
+`;
+
+const ChannelRadio = styled.input`
+  display: inline-block;
+  margin-right: 25px;
+  margin-left: 10px;
+  transform: scale(1.25);
+`;
+
+const SetDefault = styled.button`
+  float: right;
+  padding: 14px 16px;
+  font-size: 125%;
+`;
+
+const ApplyDefault = styled.button`
+  float: right;
+  padding: 14px 16px;
+  font-size: 125%;
+`;
 
 export default class extends Component {
   constructor(props) {
@@ -92,22 +118,23 @@ export default class extends Component {
     return (
       <Fragment>
         {[1, 2, 3, 4, 5].map(num => (
-          <div key={num}>
-            <input type="radio" checked={channel === num} onChange={this.handleChannelSwitch} value={num} />
-            Channel {num}
-          </div>
+          <Fragment key={num}>
+            <ChannelText>Channel {num}</ChannelText>
+            <ChannelRadio type="radio" checked={channel === num} onChange={this.handleChannelSwitch} value={num} />
+          </Fragment>
         ))}
-        <button type="submit" onClick={this.handleSetDefaults}>
+        <SetDefault type="submit" onClick={this.handleSetDefaults}>
           Set Defaults
-        </button>
-        <button type="submit" onClick={this.handleApplyDefaults}>
+        </SetDefault>
+        <ApplyDefault type="submit" onClick={this.handleApplyDefaults}>
           Apply Defaults
-        </button>
+        </ApplyDefault>
         {codes.map(([level, code]) => (
           <CodePlot
             key={level}
             level={level}
             code={code}
+            channel={channel}
             handleCodeChange={this.handleCodeChange}
             handleTempCodeChange={this.handleTempCodeChange}
           />
