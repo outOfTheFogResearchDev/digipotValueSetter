@@ -41,28 +41,29 @@ const saveAllCodes = async codes => {
 };
 
 const csvFolderLocation = './server/local';
-const csvLocation = (channel, type) => `${csvFolderLocation}/channel${channel}${type}.csv`;
+const csvLocation = (channel, unit, type) =>
+  `${csvFolderLocation}/${unit ? `unit${unit}_` : ''}channel${channel}_${type}.csv`;
 
-const writeCsv = async (channel, type, tuples) => {
-  tuples.sort((x, y) => +y[0] - +x[0]);
-  const csv = await new Promise(resolve => csvWrite(tuples, (err, data) => resolve(data)));
+const writeCsv = async (channel, codes, unit, type) => {
+  codes.sort((x, y) => +y[0] - +x[0]);
+  const csv = await new Promise(resolve => csvWrite(codes, (err, data) => resolve(data)));
   // if the local folder doesnt exist, make it
   try {
     await stat(csvFolderLocation);
   } catch (e) {
     await mkdir(csvFolderLocation);
   }
-  await writeFile(csvLocation(channel, type), csv);
+  await writeFile(csvLocation(channel, unit, type), csv);
 };
 
 const readCsv = async (channel, type) => {
   // check to see if that channel has a default file
   try {
-    await stat(csvLocation(channel, type));
+    await stat(csvLocation(channel, null, type));
   } catch (e) {
     throw new Error("That channel doesn't exist or doesn't have a default record");
   }
-  const csv = await readFile(csvLocation(channel, type), 'utf8');
+  const csv = await readFile(csvLocation(channel, null, type), 'utf8');
   return new Promise(resolve => csvRead(csv, (err, data) => resolve(data)));
 };
 

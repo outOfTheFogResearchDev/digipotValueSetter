@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const LevelForm = styled.form`
-  padding: 5px 5px;
+  padding: 4px 5px;
   margin: 10px 0;
   box-sizing: border-box;
 `; // margin-left 25px base, +186 per channel past 1 (done in react style bellow)
@@ -16,7 +16,7 @@ const LevelValue = styled.input`
   display: inline-block;
   width: 40px;
   margin-left: 15px;
-  transform: scale(1.5);
+  transform: scale(1.45);
 `;
 
 export default class extends Component {
