@@ -57,6 +57,7 @@ export default class extends Component {
     super(props);
     this.state = { codes: [], channel: 0, unit: '' };
 
+    this.connect = this.connect.bind(this);
     this.handleUnitNumberChange = this.handleUnitNumberChange.bind(this);
     this.handleChannelSwitch = this.handleChannelSwitch.bind(this);
     this.handleApplyDefaults = this.handleApplyDefaults.bind(this);
@@ -66,8 +67,7 @@ export default class extends Component {
   }
 
   async componentDidMount() {
-    await get('/api/configure');
-    await this.getAllCodes();
+    await this.connect();
   }
 
   async getAllCodes() {
@@ -79,6 +79,11 @@ export default class extends Component {
     } catch (e) {
       alert(e); // eslint-disable-line no-alert
     }
+  }
+
+  async connect() {
+    await get('/api/configure');
+    await this.getAllCodes();
   }
 
   handleUnitNumberChange({ target: { value } }) {
@@ -152,7 +157,7 @@ export default class extends Component {
     const { codes, channel, unit } = this.state;
     return (
       <Fragment>
-        <UnitForm>
+        <UnitForm onSubmit={e => e.preventDefault()}>
           <UnitNumberLabel>Unit #:</UnitNumberLabel>
           <UnitNumber type="number" min="0" value={unit} onChange={this.handleUnitNumberChange} />
         </UnitForm>

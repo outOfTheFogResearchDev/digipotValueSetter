@@ -36,9 +36,15 @@ export default class extends Component {
     const { level, code, channel } = this.props; // eslint-disable-line react/prop-types
     const marginLeft = `${25 + 186 * (channel - 1)}px`; // 25px base, +186 for every channel past 1
     return (
-      <LevelForm style={{ marginLeft }}>
+      <LevelForm
+        style={{ marginLeft }}
+        onSubmit={e => {
+          e.preventDefault();
+          document.getElementById(`${level === 1 ? 12 : level - 1}-value`).focus();
+        }}
+      >
         <LevelText>Level {(+level < 10 ? '0' : '') + level}:</LevelText>
-        <LevelValue type="number" min="90" max="200" value={code} onChange={this.handleChange} />
+        <LevelValue id={`${level}-value`} type="number" min="90" max="200" value={code} onChange={this.handleChange} />
       </LevelForm>
     );
   }
