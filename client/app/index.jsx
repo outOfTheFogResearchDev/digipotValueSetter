@@ -27,6 +27,16 @@ const ProgramTitle = styled.h1`
   margin-left: 233px;
 `;
 
+const Refresh = styled.button`
+  padding: 5px 5px;
+  margin-left: 233px;
+  margin-right: 10px;
+`;
+
+const Reconnect = styled.button`
+  padding: 5px 5px;
+`;
+
 const ChannelText = styled.label`
   display: inline-block;
   font-size: 150%;
@@ -57,6 +67,8 @@ export default class extends Component {
     super(props);
     this.state = { codes: [], channel: 0, unit: '' };
 
+    this.getAllCodes = this.getAllCodes.bind(this);
+    this.connect = this.connect.bind(this);
     this.handleUnitNumberChange = this.handleUnitNumberChange.bind(this);
     this.handleChannelSwitch = this.handleChannelSwitch.bind(this);
     this.handleApplyDefaults = this.handleApplyDefaults.bind(this);
@@ -66,8 +78,7 @@ export default class extends Component {
   }
 
   async componentDidMount() {
-    await get('/api/configure');
-    await this.getAllCodes();
+    await this.connect();
   }
 
   async getAllCodes() {
@@ -79,6 +90,11 @@ export default class extends Component {
     } catch (e) {
       alert(e); // eslint-disable-line no-alert
     }
+  }
+
+  async connect() {
+    await get('/api/configure');
+    await this.getAllCodes();
   }
 
   handleUnitNumberChange({ target: { value } }) {
@@ -152,11 +168,17 @@ export default class extends Component {
     const { codes, channel, unit } = this.state;
     return (
       <Fragment>
-        <UnitForm>
+        <UnitForm onSubmit={e => e.preventDefault()}>
           <UnitNumberLabel>Unit #:</UnitNumberLabel>
           <UnitNumber type="number" min="0" value={unit} onChange={this.handleUnitNumberChange} />
         </UnitForm>
         <ProgramTitle>Digipot Programming</ProgramTitle>
+        <Refresh type="submit" onClick={this.getAllCodes}>
+          Refresh Data
+        </Refresh>
+        <Reconnect type="submit" onClick={this.connect}>
+          Reconnect to Digipot
+        </Reconnect>
         <br />
         {[1, 2, 3, 4, 5].map(num => (
           <Fragment key={num}>

@@ -24,6 +24,7 @@ export default class extends Component {
     super(props);
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleEnter = this.handleEnter.bind(this);
   }
 
   async handleChange({ target: { value: code } }) {
@@ -32,13 +33,19 @@ export default class extends Component {
     else handleTempCodeChange(level, code);
   }
 
+  handleEnter(e) {
+    const { level } = this.props; // eslint-disable-line react/prop-types
+    e.preventDefault();
+    document.getElementById(`${level === 1 ? 12 : level - 1}-value`).focus();
+  }
+
   render() {
     const { level, code, channel } = this.props; // eslint-disable-line react/prop-types
     const marginLeft = `${25 + 186 * (channel - 1)}px`; // 25px base, +186 for every channel past 1
     return (
-      <LevelForm style={{ marginLeft }}>
+      <LevelForm style={{ marginLeft }} onSubmit={this.handleEnter}>
         <LevelText>Level {(+level < 10 ? '0' : '') + level}:</LevelText>
-        <LevelValue type="number" min="90" max="200" value={code} onChange={this.handleChange} />
+        <LevelValue id={`${level}-value`} type="number" min="90" max="200" value={code} onChange={this.handleChange} />
       </LevelForm>
     );
   }
