@@ -4,9 +4,8 @@ module.exports = {
   context: resolve(__dirname, 'client'),
   entry: './index.jsx',
   output: {
-    path: resolve(__dirname, 'client/dist/'),
+    path: resolve(__dirname, 'client/dist/bundle'),
     filename: 'bundle.js',
-    publicPath: '/dist/',
   },
   resolve: { extensions: ['.js', '.jsx'] },
   module: {

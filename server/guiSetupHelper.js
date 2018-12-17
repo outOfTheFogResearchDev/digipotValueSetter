@@ -20,7 +20,7 @@ app.use(
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(express.static(`${__dirname}/../client/dist/`));
+app.use(express.static(`${__dirname}/../client/dist`));
 
 const defaultCodeHelper = [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1].map(num => [num, (12 - num + 9) * 10]);
 

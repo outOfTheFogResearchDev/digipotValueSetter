@@ -10,6 +10,7 @@
     "cpp-build": "node-gyp rebuild",
     "react-dev": "webpack -d --watch --optimize-minimize --optimize-occurrence-order --optimize-dedupe --config webpack.config.js",
     "deployment-build": "webpack -p --progress --optimize-minimize --optimize-occurrence-order --optimize-dedupe --config webpack.config.js",
+    "setup": "npm i && npm run deployment-build",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix"
   },
