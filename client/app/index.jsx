@@ -78,7 +78,7 @@ export default class extends Component {
   }
 
   async componentDidMount() {
-    await this.connect();
+    await get('/api/configure');
   }
 
   async getAllCodes() {
@@ -101,9 +101,10 @@ export default class extends Component {
     this.setState({ unit: +value });
   }
 
-  handleChannelSwitch({ target: { value } }) {
+  async handleChannelSwitch({ target: { value } }) {
     const { unit } = this.state;
     if (!unit) return;
+    await this.getAllCodes();
     this.setState({ channel: +value });
   }
 
