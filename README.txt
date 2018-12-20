@@ -18,9 +18,9 @@ double click startDigipotProgramming.bat
 
 changing the numbers will automatically set and save those values to the level, you can press tab or enter to go to the next level
 
-you can find current and legacy values for units in the server/local folder
+you can find current and legacy values for units in the digipotValueSetter/server/local folder
 
-you can find and manually change the default values for each channel in the server/local folder
+you can find and manually change the default values for each channel in the digipotValueSetter/server/local folder
 
 you must select the unit number before you can select a channel
 
@@ -36,7 +36,7 @@ right click startDigipotProgramming.bat and select Create Shortcut, move the sho
 
 To find and/or manually change the default values for each channel as well as the log of previous system's final values:
 
-go to: server/local
+go to: digipotValueSetter/server/local
 
 
 
@@ -44,9 +44,9 @@ To set up on a new computer:
 
 copy the setupDigipotProgramming.bat file onto the new computer using a flash drive and double click
 
-copy the "local" folder found in server folder to the server folder on the new computer
+copy the "local" folder found in the digipotValueSetter/server directory to the digipotValueSetter/server directory on the new computer
 
-you can delete the setupDigipotProgramming.bat file from outside of the digipotValueSetter folder 
+you can delete the setupDigipotProgramming.bat file from the outside of the digipotValueSetter folder 
 (leave the one inside just in case to copy to a new computer)
 
 
