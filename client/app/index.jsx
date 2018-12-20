@@ -62,13 +62,16 @@ const SetDefault = styled.button`
   font-size: 100%;
 `;
 
+async function connectToDigipot() {
+  await get('/api/configure');
+}
+
 export default class extends Component {
   constructor(props) {
     super(props);
     this.state = { codes: [], channel: 0, unit: '' };
 
     this.getAllCodes = this.getAllCodes.bind(this);
-    this.connect = this.connect.bind(this);
     this.handleUnitNumberChange = this.handleUnitNumberChange.bind(this);
     this.handleChannelSwitch = this.handleChannelSwitch.bind(this);
     this.handleApplyDefaults = this.handleApplyDefaults.bind(this);
@@ -78,7 +81,7 @@ export default class extends Component {
   }
 
   async componentDidMount() {
-    await get('/api/configure');
+    connectToDigipot();
   }
 
   async getAllCodes() {
@@ -90,11 +93,6 @@ export default class extends Component {
     } catch (e) {
       alert(e); // eslint-disable-line no-alert
     }
-  }
-
-  async connect() {
-    await get('/api/configure');
-    await this.getAllCodes();
   }
 
   handleUnitNumberChange({ target: { value } }) {
@@ -177,7 +175,7 @@ export default class extends Component {
         <Refresh type="submit" onClick={this.getAllCodes}>
           Refresh Data
         </Refresh>
-        <Reconnect type="submit" onClick={this.connect}>
+        <Reconnect type="submit" onClick={connectToDigipot}>
           Reconnect to Digipot
         </Reconnect>
         <br />
