@@ -37,6 +37,11 @@ const Reconnect = styled.button`
   padding: 5px 5px;
 `;
 
+const Print = styled.button`
+  padding: 5px 5px;
+  margin-left: 100px;
+`;
+
 const ChannelText = styled.label`
   display: inline-block;
   font-size: 150%;
@@ -69,9 +74,11 @@ async function connectToDigipot() {
 export default class extends Component {
   constructor(props) {
     super(props);
-    this.state = { codes: [], channel: 0, unit: '' };
+    this.state = { codes: [], channel: 0, unit: '', printing: false };
 
     this.getAllCodes = this.getAllCodes.bind(this);
+    this.print = this.print.bind(this);
+    this.togglePrint = this.togglePrint.bind(this);
     this.handleUnitNumberChange = this.handleUnitNumberChange.bind(this);
     this.handleChannelSwitch = this.handleChannelSwitch.bind(this);
     this.handleApplyDefaults = this.handleApplyDefaults.bind(this);
@@ -81,7 +88,14 @@ export default class extends Component {
   }
 
   async componentDidMount() {
-    connectToDigipot();
+    await connectToDigipot();
+  }
+
+  componentDidUpdate() {
+    const { printing } = this.state;
+    if (printing) {
+      this.print();
+    }
   }
 
   async getAllCodes() {
@@ -93,6 +107,16 @@ export default class extends Component {
     } catch (e) {
       alert(e); // eslint-disable-line no-alert
     }
+  }
+
+  print() {
+    window.print();
+    this.togglePrint();
+  }
+
+  togglePrint() {
+    const { printing } = this.state;
+    this.setState({ printing: !printing });
   }
 
   handleUnitNumberChange({ target: { value } }) {
@@ -164,7 +188,12 @@ export default class extends Component {
   }
 
   render() {
-    const { codes, channel, unit } = this.state;
+    const { codes, channel, unit, printing } = this.state;
+
+    //* printing view
+    if (printing) return <Fragment />;
+
+    //* normal view
     return (
       <Fragment>
         <UnitForm onSubmit={e => e.preventDefault()}>
@@ -178,6 +207,9 @@ export default class extends Component {
         <Reconnect type="submit" onClick={connectToDigipot}>
           Reconnect to Digipot
         </Reconnect>
+        <Print type="submit" onClick={this.togglePrint}>
+          Print
+        </Print>
         <br />
         {[1, 2, 3, 4, 5].map(num => (
           <Fragment key={num}>
