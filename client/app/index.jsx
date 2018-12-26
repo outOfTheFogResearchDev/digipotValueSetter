@@ -218,7 +218,7 @@ export default class extends Component {
           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(i => (
             <Fragment key={i}>
               {[0, 1, 2, 3, 4].map(j => (
-                <CodePlotForPrint key={j} level={i + 1} code={printingCodes[j] ? printingCodes[j][i][1] : null} />
+                <CodePlotForPrint key={j} level={printingCodes[j] ? printingCodes[j][i][0] : null} code={printingCodes[j] ? printingCodes[j][i][1] : null} />
               ))}
               <br />
             </Fragment>
