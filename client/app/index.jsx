@@ -124,7 +124,7 @@ export default class extends Component {
 
   async togglePrint() {
     const { printing, unit } = this.state;
-    if (!printing) {
+    if (!printing && unit) {
       const {
         data: { data: printingCodes },
       } = await get('/api/current', { params: { unit } });
@@ -218,7 +218,11 @@ export default class extends Component {
           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(i => (
             <Fragment key={i}>
               {[0, 1, 2, 3, 4].map(j => (
-                <CodePlotForPrint key={j} level={printingCodes[j] ? printingCodes[j][i][0] : null} code={printingCodes[j] ? printingCodes[j][i][1] : null} />
+                <CodePlotForPrint
+                  key={j}
+                  level={printingCodes[j] ? printingCodes[j][i][0] : 12 - i}
+                  code={printingCodes[j] ? printingCodes[j][i][1] : null}
+                />
               ))}
               <br />
             </Fragment>
