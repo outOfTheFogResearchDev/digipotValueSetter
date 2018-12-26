@@ -113,14 +113,31 @@ api
     }
   });
 
-api.post('/current', async (req, res) => {
-  const { channel, values, unit } = req.body;
-  try {
-    await writeCsv(channel, values, unit, 'values');
-    res.sendStatus(201);
-  } catch (e) {
-    res.status(400).send(e);
-  }
-});
+api
+  .route('/current')
+  .post(async (req, res) => {
+    const { channel, values, unit } = req.body;
+    try {
+      await writeCsv(channel, values, unit, 'values');
+      res.sendStatus(201);
+    } catch (e) {
+      res.status(400).send(e);
+    }
+  })
+  .get(async (req, res) => {
+    const { unit } = req.query;
+    const data = [];
+    const inner = async i => {
+      try {
+        const current = await readCsv(i, 'values', unit);
+        data.push(current);
+      } catch (e) {
+        data.push(null);
+      }
+      if (i < 5) await inner(i + 1);
+    };
+    await inner(1);
+    res.status(200).send({ data });
+  });
 
 module.exports = api;

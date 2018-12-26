@@ -56,14 +56,14 @@ const writeCsv = async (channel, codes, unit, type) => {
   await writeFile(csvLocation(channel, unit, type), csv);
 };
 
-const readCsv = async (channel, type) => {
+const readCsv = async (channel, type, unit = null) => {
   // check to see if that channel has a default file
   try {
-    await stat(csvLocation(channel, null, type));
+    await stat(csvLocation(channel, unit, type));
   } catch (e) {
     throw new Error("That channel doesn't exist or doesn't have a default record");
   }
-  const csv = await readFile(csvLocation(channel, null, type), 'utf8');
+  const csv = await readFile(csvLocation(channel, unit, type), 'utf8');
   return new Promise(resolve => csvRead(csv, (err, data) => resolve(data)));
 };
 
