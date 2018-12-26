@@ -2,6 +2,14 @@ import React, { Fragment, Component } from 'react';
 import { get, post } from 'axios';
 import styled from 'styled-components';
 import CodePlot from './codePlot';
+import CodePlotForPrint from './codePlotForPrint';
+
+const PrintChannelText = styled.label`
+  display: inline-block;
+  font-size: 150%;
+  margin-left: 40px;
+  margin-right: 45px;
+`;
 
 const UnitForm = styled.form`
   display: inline-block;
@@ -37,6 +45,11 @@ const Reconnect = styled.button`
   padding: 5px 5px;
 `;
 
+const Print = styled.button`
+  padding: 5px 5px;
+  margin-left: 100px;
+`;
+
 const ChannelText = styled.label`
   display: inline-block;
   font-size: 150%;
@@ -69,9 +82,11 @@ async function connectToDigipot() {
 export default class extends Component {
   constructor(props) {
     super(props);
-    this.state = { codes: [], channel: 0, unit: '' };
+    this.state = { codes: [], channel: 0, unit: '', printing: false, printingCodes: [] };
 
     this.getAllCodes = this.getAllCodes.bind(this);
+    this.print = this.print.bind(this);
+    this.togglePrint = this.togglePrint.bind(this);
     this.handleUnitNumberChange = this.handleUnitNumberChange.bind(this);
     this.handleChannelSwitch = this.handleChannelSwitch.bind(this);
     this.handleApplyDefaults = this.handleApplyDefaults.bind(this);
@@ -81,7 +96,14 @@ export default class extends Component {
   }
 
   async componentDidMount() {
-    connectToDigipot();
+    await connectToDigipot();
+  }
+
+  componentDidUpdate() {
+    const { printing } = this.state;
+    if (printing) {
+      this.print();
+    }
   }
 
   async getAllCodes() {
@@ -92,6 +114,25 @@ export default class extends Component {
       this.setState({ codes });
     } catch (e) {
       alert(e); // eslint-disable-line no-alert
+    }
+  }
+
+  print() {
+    window.print();
+    this.togglePrint();
+  }
+
+  async togglePrint() {
+    const { printing, unit } = this.state;
+    if (!printing) {
+      const {
+        data: { data: printingCodes },
+      } = await get('/api/current', { params: { unit } });
+      document.title = `Unit #: ${unit}`;
+      this.setState({ printing: true, printingCodes });
+    } else {
+      document.title = 'Digipot Programming';
+      this.setState({ printing: false, printingCodes: [] });
     }
   }
 
@@ -164,7 +205,28 @@ export default class extends Component {
   }
 
   render() {
-    const { codes, channel, unit } = this.state;
+    const { codes, channel, unit, printing, printingCodes } = this.state;
+
+    //* printing view
+    if (printing)
+      return (
+        <Fragment>
+          {[1, 2, 3, 4, 5].map(num => (
+            <PrintChannelText key={num}>Channel {num}</PrintChannelText>
+          ))}
+          <br />
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(i => (
+            <Fragment key={i}>
+              {[0, 1, 2, 3, 4].map(j => (
+                <CodePlotForPrint key={j} level={i + 1} code={printingCodes[j] ? printingCodes[j][i][1] : null} />
+              ))}
+              <br />
+            </Fragment>
+          ))}
+        </Fragment>
+      );
+
+    //* normal view
     return (
       <Fragment>
         <UnitForm onSubmit={e => e.preventDefault()}>
@@ -178,6 +240,9 @@ export default class extends Component {
         <Reconnect type="submit" onClick={connectToDigipot}>
           Reconnect to Digipot
         </Reconnect>
+        <Print type="submit" onClick={this.togglePrint}>
+          Print
+        </Print>
         <br />
         {[1, 2, 3, 4, 5].map(num => (
           <Fragment key={num}>
