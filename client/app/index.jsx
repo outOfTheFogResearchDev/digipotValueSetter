@@ -4,10 +4,27 @@ import styled from 'styled-components';
 import CodePlot from './codePlot';
 import CodePlotForPrint from './codePlotForPrint';
 
+const PrintTitle = styled.h1`
+  display: inline-block;
+  font-size: 100%;
+`;
+
+const PrintUnit = styled.h1`
+  display: inline-block;
+  font-size: 100%;
+  margin-left: 600px;
+`;
+
+const PrintDate = styled.h1`
+  display: inline-block;
+  font-size: 100%;
+  float: right;
+`;
+
 const PrintChannelText = styled.label`
   display: inline-block;
   font-size: 150%;
-  margin-left: 40px;
+  margin-left: 45px;
   margin-right: 45px;
 `;
 
@@ -128,10 +145,8 @@ export default class extends Component {
       const {
         data: { data: printingCodes },
       } = await get('/api/current', { params: { unit } });
-      document.title = `Unit #: ${unit}`;
       this.setState({ printing: true, printingCodes });
     } else {
-      document.title = 'Digipot Programming';
       this.setState({ printing: false, printingCodes: [] });
     }
   }
@@ -208,9 +223,15 @@ export default class extends Component {
     const { codes, channel, unit, printing, printingCodes } = this.state;
 
     //* printing view
-    if (printing)
+    if (printing) {
+      const today = new Date();
+      const date = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
       return (
         <Fragment>
+          <PrintTitle>Attenuator Codes</PrintTitle>
+          <PrintUnit>Unit # {unit}</PrintUnit>
+          <PrintDate>{date}</PrintDate>
+          <br />
           {[1, 2, 3, 4, 5].map(num => (
             <PrintChannelText key={num}>Channel {num}</PrintChannelText>
           ))}
@@ -229,7 +250,7 @@ export default class extends Component {
           ))}
         </Fragment>
       );
-
+    }
     //* normal view
     return (
       <Fragment>

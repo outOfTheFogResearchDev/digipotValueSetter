@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 const LevelForm = styled.form`
   padding: 4px 5px;
-  margin: 13px 0;
-  margin-left: 15px;
+  margin: 11px 0;
+  margin-left: 20px;
   margin-right: 25px;
   box-sizing: border-box;
   display: inline-block;
