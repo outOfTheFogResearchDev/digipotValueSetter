@@ -10,6 +10,7 @@ const {
   stepCode,
   writeCsv,
   readCsv,
+  getDateLastModified,
 } = require('../util/utils');
 
 const api = Router();
@@ -137,7 +138,11 @@ api
       if (i < 5) await inner(i + 1);
     };
     await inner(1);
-    res.status(200).send({ data });
+    const dates = await Promise.all([1, 2, 3, 4, 5].map(channel => getDateLastModified(unit, channel)));
+    const date = dates.sort((a, b) => a < b)[0];
+    res
+      .status(200)
+      .send({ data, date: date ? `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}` : null });
   });
 
 module.exports = api;

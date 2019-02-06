@@ -67,6 +67,17 @@ const readCsv = async (channel, type, unit = null) => {
   return new Promise(resolve => csvRead(csv, (err, data) => resolve(data)));
 };
 
+const getDateLastModified = (unit, channel) =>
+  new Promise(async resolve => {
+    try {
+      const { mtime } = await stat(csvLocation(unit, channel, 'values'));
+      mtime.setHours(mtime.getHours() - 8);
+      resolve(mtime);
+    } catch (e) {
+      resolve(null);
+    }
+  });
+
 module.exports = {
   configure,
   getCode,
@@ -78,4 +89,5 @@ module.exports = {
   stepCode,
   writeCsv,
   readCsv,
+  getDateLastModified,
 };

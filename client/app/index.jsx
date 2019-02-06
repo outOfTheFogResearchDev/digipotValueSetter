@@ -99,7 +99,7 @@ async function connectToDigipot() {
 export default class extends Component {
   constructor(props) {
     super(props);
-    this.state = { codes: [], channel: 0, unit: '', printing: false, printingCodes: [] };
+    this.state = { codes: [], channel: 0, unit: '', printing: false, printingCodes: [], printDate: '' };
 
     this.getAllCodes = this.getAllCodes.bind(this);
     this.print = this.print.bind(this);
@@ -143,11 +143,11 @@ export default class extends Component {
     const { printing, unit } = this.state;
     if (!printing && unit) {
       const {
-        data: { data: printingCodes },
+        data: { data: printingCodes, date: printDate },
       } = await get('/api/current', { params: { unit } });
-      this.setState({ printing: true, printingCodes });
+      this.setState({ printing: true, printingCodes, printDate });
     } else {
-      this.setState({ printing: false, printingCodes: [] });
+      this.setState({ printing: false, printingCodes: [], printDate: '' });
     }
   }
 
@@ -220,17 +220,15 @@ export default class extends Component {
   }
 
   render() {
-    const { codes, channel, unit, printing, printingCodes } = this.state;
+    const { codes, channel, unit, printing, printingCodes, printDate } = this.state;
 
     //* printing view
     if (printing) {
-      const today = new Date();
-      const date = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
       return (
         <Fragment>
           <PrintTitle>Attenuator Codes</PrintTitle>
           <PrintUnit>Unit # {unit}</PrintUnit>
-          <PrintDate>{date}</PrintDate>
+          <PrintDate>{printDate}</PrintDate>
           <br />
           {[1, 2, 3, 4, 5].map(num => (
             <PrintChannelText key={num}>Channel {num}</PrintChannelText>
