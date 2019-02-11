@@ -70,7 +70,7 @@ const readCsv = async (channel, type, unit = null) => {
 const getDateLastModified = (unit, channel) =>
   new Promise(async resolve => {
     try {
-      const { mtime } = await stat(csvLocation(unit, channel, 'values'));
+      const { mtime } = await stat(csvLocation(channel, unit, 'values'));
       mtime.setHours(mtime.getHours() - 8);
       resolve(mtime);
     } catch (e) {
