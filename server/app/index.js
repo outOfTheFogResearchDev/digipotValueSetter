@@ -27,6 +27,9 @@ app.use(express.static(`${__dirname}/../../client/dist/`));
 
 app.use('/api', api);
 
-app.get('/exit', () => process.exit());
+app.get('/exit', () => {
+  if (process.env.NODE_ENV === 'development') return;
+  process.exit();
+});
 
 module.exports = app;
