@@ -128,11 +128,13 @@ export default class extends Component {
     }
   }
 
-  async getAllCodes() {
+  async getAllCodes(save = false) {
+    const { channel, unit } = this.state;
     try {
       const {
         data: { codes },
       } = await get('/api/getAllCodes');
+      if (save) await post('/api/current', { channel, codes, unit });
       this.setState({ codes });
     } catch (e) {
       alert(e); // eslint-disable-line no-alert
@@ -262,7 +264,7 @@ export default class extends Component {
           <UnitNumber type="number" min="0" value={unit} onChange={this.handleUnitNumberChange} />
         </UnitForm>
         <ProgramTitle>Digipot Programming</ProgramTitle>
-        <Refresh type="submit" onClick={this.getAllCodes}>
+        <Refresh type="submit" onClick={() => this.getAllCodes('save')}>
           Refresh Data
         </Refresh>
         <Reconnect type="submit" onClick={connectToDigipot}>
