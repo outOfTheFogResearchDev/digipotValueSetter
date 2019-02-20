@@ -92,6 +92,10 @@ const SetDefault = styled.button`
   font-size: 100%;
 `;
 
+const ping = async () => {
+  await post('/ping');
+};
+
 async function connectToDigipot() {
   await get('/api/configure');
 }
@@ -113,6 +117,7 @@ export default class extends Component {
   }
 
   async componentDidMount() {
+    setInterval(ping, 1000);
     await connectToDigipot();
   }
 

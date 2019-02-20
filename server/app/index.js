@@ -27,9 +27,25 @@ app.use(express.static(`${__dirname}/../../client/dist/`));
 
 app.use('/api', api);
 
-app.get('/exit', () => {
-  if (process.env.NODE_ENV === 'development') return;
+let ping = false;
+
+const gracefulShutdown = async () => {
   process.exit();
+};
+
+const timedExit = async () => {
+  if (!ping) gracefulShutdown();
+  else {
+    ping = false;
+    setTimeout(timedExit, 2000);
+  }
+};
+
+setTimeout(timedExit, 10000); // starts on server start
+
+app.post('/ping', (req, res) => {
+  ping = true;
+  res.sendStatus(201);
 });
 
 module.exports = app;
