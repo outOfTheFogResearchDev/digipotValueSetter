@@ -134,8 +134,9 @@ export default class extends Component {
       const {
         data: { codes },
       } = await get('/api/getAllCodes');
-      if (save) await post('/api/current', { channel, codes, unit });
-      this.setState({ codes });
+      this.setState({ codes }, async () => {
+        if (save) await post('/api/current', { channel, values: codes, unit, hi: 'bye' });
+      });
     } catch (e) {
       alert(e); // eslint-disable-line no-alert
     }
