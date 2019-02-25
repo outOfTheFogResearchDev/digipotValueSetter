@@ -117,7 +117,8 @@ api
 api
   .route('/current')
   .post(async (req, res) => {
-    const { channel, values, unit } = req.body;
+    const { channel, values, unit, hi } = req.body;
+    console.log(hi);
     try {
       await writeCsv(channel, values, unit, 'values');
       res.sendStatus(201);
