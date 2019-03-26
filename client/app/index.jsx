@@ -96,6 +96,16 @@ const ping = async () => {
   await post('/ping');
 };
 
+const _window = async (type, string) => {
+  await post('/ping/in_operation');
+  const answer = window[type](string); // eslint-disable-line no-alert
+  return post('/ping/out_operation').then(() => answer);
+};
+
+const _confirm = string => _window('confirm', string);
+
+const _alert = string => _window('alert', string);
+
 async function connectToDigipot() {
   await get('/api/configure');
 }
@@ -138,7 +148,7 @@ export default class extends Component {
         if (save) await post('/api/current', { channel, values: codes, unit, hi: 'bye' });
       });
     } catch (e) {
-      alert(e); // eslint-disable-line no-alert
+      await _alert(e);
     }
   }
 
@@ -170,10 +180,9 @@ export default class extends Component {
     this.setState({ channel: +value });
   }
 
-  /* eslint-disable no-alert */
   async handleApplyDefaults() {
     const { channel, unit } = this.state;
-    if (channel && !window.confirm(`This will apply the defaults for channel ${channel} to the unit, are you sure?`))
+    if (channel && !(await _confirm(`This will apply the defaults for channel ${channel} to the unit, are you sure?`)))
       return;
     try {
       const {
@@ -186,7 +195,7 @@ export default class extends Component {
       ]);
       await this.getAllCodes();
     } catch (e) {
-      alert(e);
+      await _alert(e);
     }
   }
 
@@ -194,16 +203,15 @@ export default class extends Component {
     const { channel, codes: defaults } = this.state;
     if (
       channel &&
-      !window.confirm(`This will set the defaults for channel ${channel} to the current values, are you sure?`)
+      !(await _confirm(`This will set the defaults for channel ${channel} to the current values, are you sure?`))
     )
       return;
     try {
       await post('/api/defaults', { channel, defaults });
     } catch (e) {
-      alert(e);
+      await _alert(e);
     }
   }
-  /* eslint-enable no-alert */
 
   async handleCodeChange(level, newCode) {
     const { channel, codes, unit } = this.state;
@@ -217,7 +225,7 @@ export default class extends Component {
       await post('/api/current', { channel, values: codes, unit });
       this.setState({ codes });
     } catch (e) {
-      alert(e); // eslint-disable-line no-alert
+      await _alert(e);
     }
   }
 
