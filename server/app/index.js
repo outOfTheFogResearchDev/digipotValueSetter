@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const api = require('./api/index');
+const { ping } = require('./ping/index');
 
 const config = process.env.NODE_ENV === 'production' ? process.env : require('../../config/config');
 
@@ -27,25 +28,6 @@ app.use(express.static(`${__dirname}/../../client/dist/`));
 
 app.use('/api', api);
 
-let ping = false;
-
-const gracefulShutdown = async () => {
-  process.exit();
-};
-
-const timedExit = async () => {
-  if (!ping) gracefulShutdown();
-  else {
-    ping = false;
-    setTimeout(timedExit, 2000);
-  }
-};
-
-setTimeout(timedExit, 10000); // starts on server start
-
-app.post('/ping', (req, res) => {
-  ping = true;
-  res.sendStatus(201);
-});
+app.use('/ping', ping);
 
 module.exports = app;
