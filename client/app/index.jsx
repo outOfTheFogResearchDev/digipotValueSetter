@@ -148,7 +148,7 @@ export default class extends Component {
         if (save) await post('/api/current', { channel, values: codes, unit, hi: 'bye' });
       });
     } catch (e) {
-      await _alert(e);
+      _alert(e);
     }
   }
 
@@ -195,7 +195,7 @@ export default class extends Component {
       ]);
       await this.getAllCodes();
     } catch (e) {
-      await _alert(e);
+      _alert(e);
     }
   }
 
@@ -209,7 +209,7 @@ export default class extends Component {
     try {
       await post('/api/defaults', { channel, defaults });
     } catch (e) {
-      await _alert(e);
+      _alert(e);
     }
   }
 
@@ -225,7 +225,7 @@ export default class extends Component {
       await post('/api/current', { channel, values: codes, unit });
       this.setState({ codes });
     } catch (e) {
-      await _alert(e);
+      _alert(e);
     }
   }
 
